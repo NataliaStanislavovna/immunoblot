@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Современные платформы — Иммуноблоттинг</title><style>
+:root { --blue:#1a56a0; --bg:#f7f9fc; --card:#ffffff; --done:#2e7d32; --prog:#f9a825; --todo:#9e9e9e; }
+* { box-sizing:border-box; }
+body { font-family: Georgia, 'Times New Roman', serif; background:var(--bg); color:#222; margin:0; padding:0 0 60px; }
+header { background:var(--blue); color:#fff; padding:22px 20px 18px; position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+header h1 { margin:0; font-size:1.45em; }
+header .sub { font-size:.85em; opacity:.85; margin-top:4px; font-family:Arial, sans-serif; }
+main { max-width:860px; margin:24px auto; padding:0 16px; }
+.card { background:var(--card); border-radius:10px; padding:18px 20px; margin-bottom:14px; box-shadow:0 1px 4px rgba(0,0,0,.08); }
+.stage-head { display:flex; align-items:center; gap:12px; cursor:pointer; }
+.stage-num { background:var(--blue); color:#fff; border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-family:Arial; font-weight:bold; flex-shrink:0; }
+.stage-title { font-size:1.15em; font-weight:bold; flex:1; }
+.status { font-family:Arial; font-size:.72em; padding:3px 10px; border-radius:12px; color:#fff; white-space:nowrap; }
+.status.done { background:var(--done); } .status.prog { background:var(--prog); } .status.todo { background:var(--todo); }
+.arrow { font-family:Arial; transition:transform .2s; font-size:.9em; color:#666; }
+.stage.open .arrow { transform:rotate(90deg); }
+.stage-body { display:none; margin-top:14px; border-top:1px solid #e3e8ef; padding-top:12px; line-height:1.55; }
+.stage.open .stage-body { display:block; }
+.stage-body p { margin:.4em 0; }
+.stage-body ul { margin:.4em 0; padding-left:22px; }
+.more { display:inline-block; margin-top:10px; font-family:Arial; font-size:.85em; color:var(--blue); text-decoration:none; border:1px solid var(--blue); padding:5px 14px; border-radius:16px; }
+.note { font-size:.9em; color:#555; }
+h2.page { font-size:1.5em; color:var(--blue); margin:10px 0 4px; }
+.breadcrumb { font-family:Arial; font-size:.8em; margin-bottom:14px; }
+.breadcrumb a { color:var(--blue); text-decoration:none; }
+.term { border-bottom:1px dotted var(--blue); cursor:help; }
+.tooltip { position:fixed; background:#333; color:#fff; padding:8px 12px; border-radius:6px; max-width:320px; font-size:.85em; font-family:Arial; z-index:50; display:none; line-height:1.4; }
+.footer { text-align:center; color:#888; font-size:.8em; font-family:Arial; margin-top:30px; }
+@media (max-width:600px){ header h1{font-size:1.2em} .stage-title{font-size:1em} }
+</style></head><body>
+<header><h1>Современные платформы</h1><div class="sub">этап 8 из 8</div></header>
+<main>
+<div class="breadcrumb"><a href="index.html">← Карта метода</a></div>
+<div class="card"><p>Simple Western (ProteinSimple/Bio-Techne, приборы Jess/Abby/Leo): разделение в капилляре CE-<span class="term" data-def="Додецилсульфат натрия: анионный детергент. Растворяет мембраны, разворачивает белки, связывается 1,4 г/г, придаёт равномерный отрицательный заряд — основа разделения по размеру.">SDS</span> + иммунодетекция там же. Без гелей, мембран, переноса. 13–25 образцов, ~3 ч hands-off, пикограммная чувствительность, RePlex (повторный пробинг).</p>
+<p>In-Cell Western: фиксированные клетки в 96-луночном планшете + антитела, <span class="term" data-def="Ближний инфракрасный диапазон (~700–800 нм): флуоресцентная детекция с широким линейным диапазоном (Li-Cor Odyssey), два канала одновременно.">NIR</span>-детекция — количественный скрининг (RNAi, лекарства).</p>
+<p>Автоматизация блотов: BlotCycler, EUROBlotOne. Анализ: Image Studio, EurolineSCAN — убирают субъективность.</p></div>
+
+</main>
+<div class="footer">Ната + Hermes · GitHub Pages</div>
+<script>
+function toggleStage(el, ev){
+  if (ev.target.closest('a') || ev.target.closest('.status')) return;
+  el.classList.toggle('open');
+}
+// тултипы терминов
+document.addEventListener('DOMContentLoaded', function(){
+  var tip = document.createElement('div'); tip.className='tooltip'; document.body.appendChild(tip);
+  document.querySelectorAll('.term').forEach(function(t){
+    t.addEventListener('mouseenter', function(e){
+      tip.textContent = t.getAttribute('data-def');
+      tip.style.display='block';
+      var r = t.getBoundingClientRect();
+      tip.style.left = Math.max(8, r.left) + 'px';
+      tip.style.top = (r.bottom + 8) + 'px';
+    });
+    t.addEventListener('mouseleave', function(){ tip.style.display='none'; });
+  });
+});
+</script></body></html>
