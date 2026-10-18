@@ -4,57 +4,72 @@
 :root { --blue:#1a56a0; --bg:#f7f9fc; --card:#ffffff; --done:#2e7d32; --prog:#f9a825; --todo:#9e9e9e; }
 * { box-sizing:border-box; }
 body { font-family: Georgia, 'Times New Roman', serif; background:var(--bg); color:#222; margin:0; padding:0 0 60px; }
-header { background:var(--blue); color:#fff; padding:22px 20px 18px; position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.25); }
-header h1 { margin:0; font-size:1.45em; }
-header .sub { font-size:.85em; opacity:.85; margin-top:4px; font-family:Arial, sans-serif; }
-main { max-width:860px; margin:24px auto; padding:0 16px; }
-.card { background:var(--card); border-radius:10px; padding:18px 20px; margin-bottom:14px; box-shadow:0 1px 4px rgba(0,0,0,.08); }
-.stage-head { display:flex; align-items:center; gap:12px; cursor:pointer; }
-.stage-num { background:var(--blue); color:#fff; border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-family:Arial; font-weight:bold; flex-shrink:0; }
-.stage-title { font-size:1.15em; font-weight:bold; flex:1; }
-.status { font-family:Arial; font-size:.72em; padding:3px 10px; border-radius:12px; color:#fff; white-space:nowrap; }
+header { background:var(--blue); color:#fff; padding:18px 20px; position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+header h1 { margin:0; font-size:1.35em; }
+header .sub { font-size:.8em; opacity:.85; margin-top:3px; font-family:Arial, sans-serif; }
+main { max-width:860px; margin:20px auto; padding:0 14px; }
+.card { background:var(--card); border-radius:10px; margin-bottom:12px; box-shadow:0 1px 4px rgba(0,0,0,.08); overflow:hidden; }
+.head { display:flex; align-items:center; gap:10px; cursor:pointer; padding:14px 16px; user-select:none; }
+.stage-num { background:var(--blue); color:#fff; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-family:Arial; font-weight:bold; font-size:.9em; flex-shrink:0; }
+.title { font-size:1.05em; font-weight:bold; flex:1; }
+.sub-title { font-size:1.02em; font-weight:bold; flex:1; color:#1a3a63; }
+.status { font-family:Arial; font-size:.68em; padding:3px 10px; border-radius:12px; color:#fff; white-space:nowrap; }
 .status.done { background:var(--done); } .status.prog { background:var(--prog); } .status.todo { background:var(--todo); }
-.arrow { font-family:Arial; transition:transform .2s; font-size:.9em; color:#666; }
-.stage.open .arrow { transform:rotate(90deg); }
-.stage-body { display:none; margin-top:14px; border-top:1px solid #e3e8ef; padding-top:12px; line-height:1.55; }
-.stage.open .stage-body { display:block; }
-.stage-body p { margin:.4em 0; }
-.stage-body ul { margin:.4em 0; padding-left:22px; }
-.more { display:inline-block; margin-top:10px; font-family:Arial; font-size:.85em; color:var(--blue); text-decoration:none; border:1px solid var(--blue); padding:5px 14px; border-radius:16px; }
-.note { font-size:.9em; color:#555; }
-h2.page { font-size:1.5em; color:var(--blue); margin:10px 0 4px; }
-.breadcrumb { font-family:Arial; font-size:.8em; margin-bottom:14px; }
+.arrow { font-family:Arial; transition:transform .2s; color:#777; flex-shrink:0; }
+.acc.open > .head .arrow { transform:rotate(90deg); }
+.acc-body { display:none; padding:4px 16px 14px 58px; line-height:1.55; border-top:1px solid #eef1f6; }
+.acc.open > .acc-body { display:block; }
+.acc-body p { margin:.45em 0; }
+.acc-body ul { margin:.45em 0; padding-left:20px; }
+a.inner { color:var(--blue); font-weight:bold; text-decoration:none; border-bottom:1px dashed var(--blue); }
+a.more { display:inline-block; margin-top:8px; font-family:Arial; font-size:.85em; color:var(--blue); text-decoration:none; border:1px solid var(--blue); padding:5px 14px; border-radius:16px; }
+.note { font-size:.88em; color:#555; font-family:Arial; }
+.breadcrumb { font-family:Arial; font-size:.82em; margin:0 0 12px; }
 .breadcrumb a { color:var(--blue); text-decoration:none; }
 .term { border-bottom:1px dotted var(--blue); cursor:help; }
 .tooltip { position:fixed; background:#333; color:#fff; padding:8px 12px; border-radius:6px; max-width:320px; font-size:.85em; font-family:Arial; z-index:50; display:none; line-height:1.4; }
-.footer { text-align:center; color:#888; font-size:.8em; font-family:Arial; margin-top:30px; }
-@media (max-width:600px){ header h1{font-size:1.2em} .stage-title{font-size:1em} }
+.footer { text-align:center; color:#888; font-size:.8em; font-family:Arial; margin-top:26px; }
+.qa-card { border-left:4px solid var(--prog); }
+@media (max-width:600px){ header h1{font-size:1.15em} .title,.sub-title{font-size:.98em} .acc-body{padding-left:16px} }
 </style></head><body>
-<header><h1>Буфер нанесения и доводка</h1><div class="sub">этап 2 из 8</div></header>
+<header><h1>Буфер нанесения и доводка</h1><div class="sub">этап 2 из 9</div></header>
 <main>
-<div class="breadcrumb"><a href="index.html">← Карта метода</a></div>
-<div class="card"><p><b><span class="term" data-def="Буфер нанесения: <span class="term" data-def="Додецилсульфат натрия: анионный детергент. Растворяет мембраны, разворачивает белки, связывается 1,4 г/г, придаёт равномерный отрицательный заряд — основа разделения по размеру.">SDS</span> + восстановитель + глицерол (плотность) + бромфеноловый синий (индикатор). 4× или 6×.">Loading buffer</span> (буфер нанесения)</b> — транспортная смесь, делает пробу пригодной для геля:</p>
+<div class="breadcrumb"><a href="index.html">↑ Карта метода</a> &nbsp; <a href="sample.html">← Подготовка образца</a> &nbsp; <a href="sds-page.html">SDS-PAGE: электрофорез →</a></div>
+<div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Состав буфера нанесения</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Транспортная смесь, делает пробу пригодной для геля:</p>
 <ul>
-<li>SDS — доводит денатурацию до рабочей</li>
+<li><span class="term" data-def="Додецилсульфат натрия: анионный детергент. Растворяет мембраны, разворачивает белки, связывается 1,4 г/г, придаёт равномерный отрицательный заряд — основа разделения по размеру.">SDS</span> — доводит денатурацию до рабочей</li>
 <li><span class="term" data-def="Дитиотреитол: восстановитель, рвёт дисульфидные мостики S–S. Окисляется на воздухе — добавляется свежим.">DTT</span>/меркаптоэтанол — рвёт S–S (добавляется свежим — окисляется)</li>
 <li>Глицол — плотность: проба «падает на дно лунки», не расплываясь</li>
-<li>Бромфеноловый синий — видимость пробы при загрузке + фронт миграции</li>
+<li>Бромфеноловый синий — видимость при загрузке + фронт миграции</li>
 <li>Tris-HCl pH 6,8</li>
 </ul>
-<p><b>Пропорция:</b> 3 объёма пробы + 1 объём 4× (итог 1×).</p>
-<p><b>Хранение:</b> коммерческий — морозилка (−20 °C) до 12 мес / 4 °C до 6 мес; самодельный: основа без восстановителя месяцами при КТ + DTT в день работы, либо полные аликвоты в морозилке.</p>
-<p><b>Арифметика на итог 15 мкл:</b> проба 5 мкл (10 мкг при 2 мг/мл) + буфер 3,75 мкл + доводочный 6,25 мкл.</p>
-<p><b>Нагрев (фактически):</b> термоблок 95 °C с гнёздами Eppendorf, 5 мин, крышки придерживать → сразу лёд → мини-центрифуга 10–30 с (классическая потеря: пропустить центрифугирование — до 20% пробы на крышке). Чувствительные белки: 70 °C 10 мин.</p>
-<p><b><span class="term" data-def="Добавка для уравнивания итогового объёма дорожек (разведённый loading buffer, вода, лизис-буфер), когда пробы разной концентрации.">Доводочный буфер</span></b> — уравнивание НЕравных проб: разведённый 1× loading buffer (чистейший вариант), вода (при доводке ≤5–10 мкл), лизис-буфер (если пробы в нём). Правило: не добавлять ни белка, ни SDS сверх расчёта, ни солей в избытке. Нужен только когда концентрации/объёмы проб разные.</p></div>
-<h3 style="color:var(--blue)">Вопросы и ответы из нашего разбора</h3><div class="card"><p><b>❓ В каких объёмах готовят пробы?</b></p><p>Лунка мини-геля вмещает 10–30 мкл (1,0 мм/10 лунок ≈ 30 мкл). Целятся в 10–20 мкл итога с запасом. Все дорожки — одинаковый итоговый объём.</p></div><div class="card"><p><b>❓ Концентрацию пробы узнаю Bradford/BCA?</b></p><p>Да — BCA для SDS-лизатов (Bradford врёт с SDS). На аликвоте, ДО loading buffer и нагрева: SDS и DTT оба мешают BCA. Порядок: цифра → арифметика → буфер → 95 °C.</p></div>
+<p>Составы и сроки — на странице <a class="inner" href="buffers.html">«Буферы»</a>.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Хранение</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Коммерческий — морозилка (−20 °C) до 12 мес / 4 °C до 6 мес. Самодельный: основа без восстановителя месяцами при КТ + <span class="term" data-def="Дитиотреитол: восстановитель, рвёт дисульфидные мостики S–S. Окисляется на воздухе — добавляется свежим.">DTT</span> в день работы, либо полные аликвоты в морозилке.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Арифметика: объёмы</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Лунка мини-геля вмещает 10–30 мкл (1,0 мм/10 лунок ≈ 30 мкл). Целятся в 10–20 мкл итога с запасом; все дорожки — одинаковый итоговый объём.</p>
+<p>Пример на итог 15 мкл: проба 5 мкл (10 мкг при 2 мг/мл) + буфер 4× 3,75 мкл + доводочный 6,25 мкл.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Нагрев: как фактически</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Термоблок 95 °C с гнёздами Eppendorf, 5 мин, крышки придерживать → сразу лёд → мини-центрифуга 10–30 с.</p>
+<p>Классическая потеря: пропустить центрифугирование — до 20% пробы остаётся на крышке. Чувствительные белки: 70 °C 10 мин.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Доводочный буфер</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Уравнивание НЕравных проб: разведённый 1× loading buffer (чистейший вариант), вода (при доводке ≤5–10 мкл), лизис-буфер (если пробы в нём).</p>
+<p>Правило: не добавлять ни белка, ни <span class="term" data-def="Додецилсульфат натрия: анионный детергент. Растворяет мембраны, разворачивает белки, связывается 1,4 г/г, придаёт равномерный отрицательный заряд — основа разделения по размеру.">SDS</span> сверх расчёта, ни солей в избытке. Нужен только когда концентрации/объёмы проб разные.</p></div>
+</div>
+<h2 style="font-size:1.2em;color:var(--blue);margin:18px 0 8px">Вопросы из нашего разбора</h2><div class="card qa-card" style="padding:12px 16px"><p><b>❓ Концентрацию пробы узнаю Bradford/BCA?</b></p><p>Да — BCA для SDS-лизатов (Bradford врёт с SDS). На аликвоте, ДО loading buffer и нагрева: SDS и DTT оба мешают BCA. Порядок: цифра → арифметика → буфер → 95 °C.</p></div>
 </main>
-<div class="footer">Ната + Hermes · GitHub Pages</div>
+<div class="footer">Конспект наших обсуждений · GitHub Pages</div>
 <script>
-function toggleStage(el, ev){
+function toggleAcc(head, ev){
   if (ev.target.closest('a') || ev.target.closest('.status')) return;
-  el.classList.toggle('open');
+  head.parentElement.classList.toggle('open');
 }
-// тултипы терминов
 document.addEventListener('DOMContentLoaded', function(){
   var tip = document.createElement('div'); tip.className='tooltip'; document.body.appendChild(tip);
   document.querySelectorAll('.term').forEach(function(t){
