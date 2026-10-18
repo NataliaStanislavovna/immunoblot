@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SDS-PAGE: электрофорез — Иммуноблоттинг</title><style>
+:root { --blue:#1a56a0; --bg:#f7f9fc; --card:#ffffff; --done:#2e7d32; --prog:#f9a825; --todo:#9e9e9e; }
+* { box-sizing:border-box; }
+body { font-family: Georgia, 'Times New Roman', serif; background:var(--bg); color:#222; margin:0; padding:0 0 60px; }
+header { background:var(--blue); color:#fff; padding:22px 20px 18px; position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+header h1 { margin:0; font-size:1.45em; }
+header .sub { font-size:.85em; opacity:.85; margin-top:4px; font-family:Arial, sans-serif; }
+main { max-width:860px; margin:24px auto; padding:0 16px; }
+.card { background:var(--card); border-radius:10px; padding:18px 20px; margin-bottom:14px; box-shadow:0 1px 4px rgba(0,0,0,.08); }
+.stage-head { display:flex; align-items:center; gap:12px; cursor:pointer; }
+.stage-num { background:var(--blue); color:#fff; border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-family:Arial; font-weight:bold; flex-shrink:0; }
+.stage-title { font-size:1.15em; font-weight:bold; flex:1; }
+.status { font-family:Arial; font-size:.72em; padding:3px 10px; border-radius:12px; color:#fff; white-space:nowrap; }
+.status.done { background:var(--done); } .status.prog { background:var(--prog); } .status.todo { background:var(--todo); }
+.arrow { font-family:Arial; transition:transform .2s; font-size:.9em; color:#666; }
+.stage.open .arrow { transform:rotate(90deg); }
+.stage-body { display:none; margin-top:14px; border-top:1px solid #e3e8ef; padding-top:12px; line-height:1.55; }
+.stage.open .stage-body { display:block; }
+.stage-body p { margin:.4em 0; }
+.stage-body ul { margin:.4em 0; padding-left:22px; }
+.more { display:inline-block; margin-top:10px; font-family:Arial; font-size:.85em; color:var(--blue); text-decoration:none; border:1px solid var(--blue); padding:5px 14px; border-radius:16px; }
+.note { font-size:.9em; color:#555; }
+h2.page { font-size:1.5em; color:var(--blue); margin:10px 0 4px; }
+.breadcrumb { font-family:Arial; font-size:.8em; margin-bottom:14px; }
+.breadcrumb a { color:var(--blue); text-decoration:none; }
+.term { border-bottom:1px dotted var(--blue); cursor:help; }
+.tooltip { position:fixed; background:#333; color:#fff; padding:8px 12px; border-radius:6px; max-width:320px; font-size:.85em; font-family:Arial; z-index:50; display:none; line-height:1.4; }
+.footer { text-align:center; color:#888; font-size:.8em; font-family:Arial; margin-top:30px; }
+@media (max-width:600px){ header h1{font-size:1.2em} .stage-title{font-size:1em} }
+</style></head><body>
+<header><h1>SDS-PAGE: электрофорез</h1><div class="sub">этап 3 из 8</div></header>
+<main>
+<div class="breadcrumb"><a href="index.html">← Карта метода</a></div>
+<div class="card"><p><b>Гель.</b> Стекинг 4% (утрамбовка пробы в узкую зону) + разделяющий 7,5–15%: плотный (12–15%) для лёгких белков, рыхлый (7,5–10%) для тяжёлых. Готовые: Bio-Rad TGX (Tris-глицин, до года при 4 °C), Thermo NuPAGE/Bolt (Bis-Tris MES/MOPS, ровнее полосы, малые белки). Цена 10–25 €.</p>
+<p><b>Установка.</b> Вскрыть кассету, снять ленту с нижнего торца (иначе ток не пойдёт!), установить, залить рабочий буфер 1×: в ванну и в верхнюю камеру. Промыть лунки пипетированием вверх-вниз над лунками — вымыть хранилищный буфер (он другой, для консервации; если не убрать — рваные дорожки на старте).</p>
+<p><b>Загрузка.</b> <span class="term" data-def="Наконечники с длинной тонкой геометрией для загрузки лунок геля; обычные Эппендорф не подходят.">Gel-loading tips</span> (длинные тонкие, не обычные Эппендорф!), локти на стол, медленно. Проба с глицеролом падает на дно лунки. Маркер молекулярных масс — в первую лунку.</p>
+<p><b>Прогон.</b> 80 В ~10–15 мин (проба утрамбовывается в стекинге; видно как синий фронт сжимается в линию) → 120–200 В 45–90 мин (разделение). Готово: фронт красителя у нижнего края. Перегрев → «улыбающиеся» дорожки: смешивать буфер тщательно, не перегружать напряжение.</p>
+<p><b>Ванны:</b> Bio-Rad Mini-PROTEAN Tetra или Thermo XCell SureLock — «две школы», принцип один, расходники не взаимозаменяемы (как Canon/Nikon).</p></div>
+<h3 style="color:var(--blue)">Вопросы и ответы из нашего разбора</h3><div class="card"><p><b>❓ Гели хранятся в отдельном буфере?</b></p><p>Да — хранилищный буфер консервирует гель (месяцы при 4 °C), он не рабочий. После установки лунки промывают пипетированием вверх-внад: течение вымывает его и замещает рабочим. Отдельно отбирать не нужно — он уходит в общий объём ванны и там не мешает.</p></div><div class="card"><p><b>❓ Какие наконечники?</b></p><p>Gel-loading tips: длинная тонкая иглоподобная часть — в глубокую узкую лунку обычным не дотянуться. Под обычные пипетки, объёмы 2–20/10–100 мкл. Без фильтра (фильтр — для ПЦР).</p></div><div class="card"><p><b>❓ Сроки буферов?</b></p><p>См. страницу буферов: концентрат 10× — месяцы при КТ (не морозить, SDS выпадает), 1× — недели, с молоком и метанолом — в день работы.</p></div>
+</main>
+<div class="footer">Ната + Hermes · GitHub Pages</div>
+<script>
+function toggleStage(el, ev){
+  if (ev.target.closest('a') || ev.target.closest('.status')) return;
+  el.classList.toggle('open');
+}
+// тултипы терминов
+document.addEventListener('DOMContentLoaded', function(){
+  var tip = document.createElement('div'); tip.className='tooltip'; document.body.appendChild(tip);
+  document.querySelectorAll('.term').forEach(function(t){
+    t.addEventListener('mouseenter', function(e){
+      tip.textContent = t.getAttribute('data-def');
+      tip.style.display='block';
+      var r = t.getBoundingClientRect();
+      tip.style.left = Math.max(8, r.left) + 'px';
+      tip.style.top = (r.bottom + 8) + 'px';
+    });
+    t.addEventListener('mouseleave', function(){ tip.style.display='none'; });
+  });
+});
+</script></body></html>
