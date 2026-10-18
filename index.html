@@ -4,149 +4,155 @@
 :root { --blue:#1a56a0; --bg:#f7f9fc; --card:#ffffff; --done:#2e7d32; --prog:#f9a825; --todo:#9e9e9e; }
 * { box-sizing:border-box; }
 body { font-family: Georgia, 'Times New Roman', serif; background:var(--bg); color:#222; margin:0; padding:0 0 60px; }
-header { background:var(--blue); color:#fff; padding:22px 20px 18px; position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.25); }
-header h1 { margin:0; font-size:1.45em; }
-header .sub { font-size:.85em; opacity:.85; margin-top:4px; font-family:Arial, sans-serif; }
-main { max-width:860px; margin:24px auto; padding:0 16px; }
-.card { background:var(--card); border-radius:10px; padding:18px 20px; margin-bottom:14px; box-shadow:0 1px 4px rgba(0,0,0,.08); }
-.stage-head { display:flex; align-items:center; gap:12px; cursor:pointer; }
-.stage-num { background:var(--blue); color:#fff; border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-family:Arial; font-weight:bold; flex-shrink:0; }
-.stage-title { font-size:1.15em; font-weight:bold; flex:1; }
-.status { font-family:Arial; font-size:.72em; padding:3px 10px; border-radius:12px; color:#fff; white-space:nowrap; }
+header { background:var(--blue); color:#fff; padding:18px 20px; position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+header h1 { margin:0; font-size:1.35em; }
+header .sub { font-size:.8em; opacity:.85; margin-top:3px; font-family:Arial, sans-serif; }
+main { max-width:860px; margin:20px auto; padding:0 14px; }
+.card { background:var(--card); border-radius:10px; margin-bottom:12px; box-shadow:0 1px 4px rgba(0,0,0,.08); overflow:hidden; }
+.head { display:flex; align-items:center; gap:10px; cursor:pointer; padding:14px 16px; user-select:none; }
+.stage-num { background:var(--blue); color:#fff; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-family:Arial; font-weight:bold; font-size:.9em; flex-shrink:0; }
+.title { font-size:1.05em; font-weight:bold; flex:1; }
+.sub-title { font-size:1.02em; font-weight:bold; flex:1; color:#1a3a63; }
+.status { font-family:Arial; font-size:.68em; padding:3px 10px; border-radius:12px; color:#fff; white-space:nowrap; }
 .status.done { background:var(--done); } .status.prog { background:var(--prog); } .status.todo { background:var(--todo); }
-.arrow { font-family:Arial; transition:transform .2s; font-size:.9em; color:#666; }
-.stage.open .arrow { transform:rotate(90deg); }
-.stage-body { display:none; margin-top:14px; border-top:1px solid #e3e8ef; padding-top:12px; line-height:1.55; }
-.stage.open .stage-body { display:block; }
-.stage-body p { margin:.4em 0; }
-.stage-body ul { margin:.4em 0; padding-left:22px; }
-.more { display:inline-block; margin-top:10px; font-family:Arial; font-size:.85em; color:var(--blue); text-decoration:none; border:1px solid var(--blue); padding:5px 14px; border-radius:16px; }
-.note { font-size:.9em; color:#555; }
-h2.page { font-size:1.5em; color:var(--blue); margin:10px 0 4px; }
-.breadcrumb { font-family:Arial; font-size:.8em; margin-bottom:14px; }
+.arrow { font-family:Arial; transition:transform .2s; color:#777; flex-shrink:0; }
+.acc.open > .head .arrow { transform:rotate(90deg); }
+.acc-body { display:none; padding:4px 16px 14px 58px; line-height:1.55; border-top:1px solid #eef1f6; }
+.acc.open > .acc-body { display:block; }
+.acc-body p { margin:.45em 0; }
+.acc-body ul { margin:.45em 0; padding-left:20px; }
+a.inner { color:var(--blue); font-weight:bold; text-decoration:none; border-bottom:1px dashed var(--blue); }
+a.more { display:inline-block; margin-top:8px; font-family:Arial; font-size:.85em; color:var(--blue); text-decoration:none; border:1px solid var(--blue); padding:5px 14px; border-radius:16px; }
+.note { font-size:.88em; color:#555; font-family:Arial; }
+.breadcrumb { font-family:Arial; font-size:.82em; margin:0 0 12px; }
 .breadcrumb a { color:var(--blue); text-decoration:none; }
 .term { border-bottom:1px dotted var(--blue); cursor:help; }
 .tooltip { position:fixed; background:#333; color:#fff; padding:8px 12px; border-radius:6px; max-width:320px; font-size:.85em; font-family:Arial; z-index:50; display:none; line-height:1.4; }
-.footer { text-align:center; color:#888; font-size:.8em; font-family:Arial; margin-top:30px; }
-@media (max-width:600px){ header h1{font-size:1.2em} .stage-title{font-size:1em} }
+.footer { text-align:center; color:#888; font-size:.8em; font-family:Arial; margin-top:26px; }
+.qa-card { border-left:4px solid var(--prog); }
+@media (max-width:600px){ header h1{font-size:1.15em} .title,.sub-title{font-size:.98em} .acc-body{padding-left:16px} }
 </style></head><body>
-<header><h1>Иммуноблоттинг</h1><div class="sub">учебник-конспект: от образца до результата · обновляется по мере разбора</div></header>
+<header><h1>Иммуноблоттинг</h1><div class="sub">учебник-конспект · клик по этапу — тезисы, «подробнее» — полный разбор</div></header>
 <main>
-<p class="note" style="font-family:Arial;font-size:.9em">Клик по этапу — разворачивает тезисы. «Подробная страница» — полный разбор. Словарь (31 терминов) — внизу и всплывающими подсказками.</p>
-
-<div class="card stage" onclick="toggleStage(this,event)">
-  <div class="stage-head">
-    <div class="stage-num">1</div>
-    <div class="stage-title">Подготовка образца</div>
-    <span class="status done">разобрано</span>
-    <span class="arrow">▶</span>
-  </div>
-  <div class="stage-body">
-    <p class="note">Тезисы этапа:</p>
-    <ul><li><b>Лизис</b>: буфер с SDS + ингибиторы протеаз (EDTA или коктейль) + холод</li><li><b>BCA</b> на аликвоте (не Bradford — SDS мешает; не после денатурации — DTT мешает)</li><li><b>Расчёт загрузки</b>: 10–50 мкг белка на лунку, выравнивание объёмов</li><li><b>Денатурация</b>: 95 °C 5 мин, SDS + DTT/меркаптоэтанол (рвут S–S мостики)</li></ul>
-    <a class="more" href="sample.html">Подробная страница →</a>
-  </div>
+<p class="note">Статусы: 🟢 разобрано · 🟡 в процессе · ⚪ не начинали. Термины с точечным подчёркиванием — подсказка при наведении.</p>
+<div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)">
+  <div class="stage-num">1</div>
+  <div class="title">Подготовка образца</div>
+  <span class="status done">разобрано</span>
+  <span class="arrow">▶</span>
 </div>
-<div class="card stage" onclick="toggleStage(this,event)">
-  <div class="stage-head">
-    <div class="stage-num">2</div>
-    <div class="stage-title">Буфер нанесения и доводка</div>
-    <span class="status done">разобрано</span>
-    <span class="arrow">▶</span>
-  </div>
-  <div class="stage-body">
-    <p class="note">Тезисы этапа:</p>
-    <ul><li>Loading buffer 4×: SDS + восстановитель + глицерол + бромфеноловый синий + Tris</li><li>Смешивание: 3 части пробы + 1 часть 4× буфера</li><li>Нагрев 95 °C 5 мин → лёд → центрифуга 10–30 с (конденсат!)</li><li>Доводочный буфер — уравнивание итогового объёма дорожек</li></ul>
-    <a class="more" href="loading.html">Подробная страница →</a>
-  </div>
+<div class="acc-body">
+  <p class="note">Тезисы этапа:</p>
+  <ul><li><b>Лизис</b>: буфер с SDS + ингибиторы протеаз (EDTA или коктейль) + холод</li><li><b>BCA</b> на аликвоте (не Bradford — SDS мешает; не после денатурации — DTT мешает)</li><li><b>Расчёт загрузки</b>: 10–50 мкг белка на лунку, выравнивание объёмов</li><li><b>Денатурация</b>: 95 °C 5 мин, SDS + DTT/меркаптоэтанол (рвут S–S мостики)</li></ul>
+  <a class="more" href="sample.html">Подробная страница →</a>
 </div>
-<div class="card stage" onclick="toggleStage(this,event)">
-  <div class="stage-head">
-    <div class="stage-num">3</div>
-    <div class="stage-title">SDS-PAGE: электрофорез</div>
-    <span class="status prog">в процессе</span>
-    <span class="arrow">▶</span>
-  </div>
-  <div class="stage-body">
-    <p class="note">Тезисы этапа:</p>
-    <ul><li>Гель: стекинг 4% + разделяющий 7,5–15% (плотность под массу мишени)</li><li>Готовые гели (TGX, NuPAGE) хранятся в собственном буфере — лунки промыть пипетированием</li><li>Загрузка: gel-loading tips, медленно; маркер — в первую лунку</li><li>Прогон: 80 В (стекинг) → 120–200 В (разделение), ~1–1,5 ч</li></ul>
-    <a class="more" href="sds-page.html">Подробная страница →</a>
-  </div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)">
+  <div class="stage-num">2</div>
+  <div class="title">Буфер нанесения и доводка</div>
+  <span class="status done">разобрано</span>
+  <span class="arrow">▶</span>
 </div>
-<div class="card stage" onclick="toggleStage(this,event)">
-  <div class="stage-head">
-    <div class="stage-num">4</div>
-    <div class="stage-title">Перенос на мембрану</div>
-    <span class="status todo">не начинали</span>
-    <span class="arrow">▶</span>
-  </div>
-  <div class="stage-body">
-    <p class="note">Тезисы этапа:</p>
-    <ul><li>Мокрый (wet tank): полная ванна, часы — тяжёлые белки, золото стандарта</li><li>Полусухой (semi-dry): 15–60 мин — рутина, средние белки</li><li>Сухой (dry/Turbo): 7–15 мин, фирменные кассеты</li><li>Мембраны: нитроцеллюлоза (мягче) / PVDF (прочнее, смачивать метанолом)</li></ul>
-    <a class="more" href="transfer.html">Подробная страница →</a>
-  </div>
+<div class="acc-body">
+  <p class="note">Тезисы этапа:</p>
+  <ul><li>Loading buffer 4×: SDS + восстановитель + глицерол + бромфеноловый синий + Tris</li><li>Смешивание: 3 части пробы + 1 часть 4× буфера</li><li>Нагрев 95 °C 5 мин → лёд → центрифуга 10–30 с (конденсат!)</li><li>Доводочный буфер — уравнивание итогового объёма дорожек</li></ul>
+  <a class="more" href="loading.html">Подробная страница →</a>
 </div>
-<div class="card stage" onclick="toggleStage(this,event)">
-  <div class="stage-head">
-    <div class="stage-num">5</div>
-    <div class="stage-title">Блокировка и антитела</div>
-    <span class="status todo">не начинали</span>
-    <span class="arrow">▶</span>
-  </div>
-  <div class="stage-body">
-    <p class="note">Тезисы этапа:</p>
-    <ul><li>5% молоко или 1–5% BSA в TBS-T, 1 ч при КТ</li><li>Молоко запрещено для фосфо-мишеней (казеин = фосфопротеин)</li><li>Первичные антитела: 1:500–1:5000, 1–2 ч КТ или ночь 4 °C</li><li>Вторичные с меткой против вида первых: 1 ч КТ</li></ul>
-    <a class="more" href="blocking.html">Подробная страница →</a>
-  </div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)">
+  <div class="stage-num">3</div>
+  <div class="title">SDS-PAGE: электрофорез</div>
+  <span class="status prog">в процессе</span>
+  <span class="arrow">▶</span>
 </div>
-<div class="card stage" onclick="toggleStage(this,event)">
-  <div class="stage-head">
-    <div class="stage-num">6</div>
-    <div class="stage-title">Детекция</div>
-    <span class="status todo">не начинали</span>
-    <span class="arrow">▶</span>
-  </div>
-  <div class="stage-body">
-    <p class="note">Тезисы этапа:</p>
-    <ul><li>ECL: HRP + люминол → свечение → плёнка/CCD, до фг</li><li>NIR-флуоресценция (Li-Cor): два канала, линейный диапазон, количественно</li><li>Хромогенная: DAB — окрашивание без оборудования</li></ul>
-    <a class="more" href="detection.html">Подробная страница →</a>
-  </div>
+<div class="acc-body">
+  <p class="note">Тезисы этапа:</p>
+  <ul><li>Гель: стекинг 4% + разделяющий 7,5–15% (плотность под массу мишени)</li><li>Готовые гели (TGX, NuPAGE) хранятся в собственном буфере — лунки промыть пипетированием</li><li>Загрузка: gel-loading tips, медленно; маркер — в первую лунку</li><li>Прогон: 80 В (стекинг) → 120–200 В (разделение), ~1–1,5 ч</li></ul>
+  <a class="more" href="sds-page.html">Подробная страница →</a>
 </div>
-<div class="card stage" onclick="toggleStage(this,event)">
-  <div class="stage-head">
-    <div class="stage-num">7</div>
-    <div class="stage-title">Диагностические варианты: линейный блот, dot blot</div>
-    <span class="status todo">не начинали</span>
-    <span class="arrow">▶</span>
-  </div>
-  <div class="stage-body">
-    <p class="note">Тезисы этапа:</p>
-    <ul><li>Линейный блот: рекомбинантные антигены линиями на полоске — подтверждающий стандарт клиники</li><li>Dot/slot blot: «есть/нет» без разделения</li><li>Именно линейные блоты подтвердят положительный ELISA/IFA скрининг</li></ul>
-    <a class="more" href="diagnostic.html">Подробная страница →</a>
-  </div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)">
+  <div class="stage-num">4</div>
+  <div class="title">Перенос на мембрану</div>
+  <span class="status todo">не начинали</span>
+  <span class="arrow">▶</span>
 </div>
-<div class="card stage" onclick="toggleStage(this,event)">
-  <div class="stage-head">
-    <div class="stage-num">8</div>
-    <div class="stage-title">Современные платформы</div>
-    <span class="status todo">не начинали</span>
-    <span class="arrow">▶</span>
-  </div>
-  <div class="stage-body">
-    <p class="note">Тезисы этапа:</p>
-    <ul><li>Simple Western (Jess): капиллярный, без гелей, автомат</li><li>In-Cell Western: клетки в планшете, high-throughput</li><li>NIR + нормализация на тотальный белок — стандарт количественности</li></ul>
-    <a class="more" href="platforms.html">Подробная страница →</a>
-  </div>
+<div class="acc-body">
+  <p class="note">Тезисы этапа:</p>
+  <ul><li>Мокрый (wet tank): полная ванна, часы — тяжёлые белки</li><li>Полусухой (semi-dry): 15–60 мин — рутина, средние белки</li><li>Сухой (dry/Turbo): 7–15 мин, фирменные кассеты</li><li>Мембраны: нитроцеллюлоза / PVDF (смачивать метанолом)</li></ul>
+  <a class="more" href="transfer.html">Подробная страница →</a>
 </div>
-<div class="card"><div class="stage-title">📖 Словарь терминов</div><p class="note">Термины с точечным подчёркиванием в текстах имеют подсказку. Полный словарь: <a class="more" href="glossary.html">Открыть →</a></p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)">
+  <div class="stage-num">5</div>
+  <div class="title">Блокировка и антитела</div>
+  <span class="status todo">не начинали</span>
+  <span class="arrow">▶</span>
+</div>
+<div class="acc-body">
+  <p class="note">Тезисы этапа:</p>
+  <ul><li>5% молоко или 1–5% BSA в TBS-T, 1 ч при КТ</li><li>Молоко запрещено для фосфо-мишеней</li><li>Первичные: 1:500–1:5000, ночь 4 °C = специфичнее</li><li>Вторичные против вида первых: 1 ч КТ</li></ul>
+  <a class="more" href="blocking.html">Подробная страница →</a>
+</div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)">
+  <div class="stage-num">6</div>
+  <div class="title">Детекция</div>
+  <span class="status todo">не начинали</span>
+  <span class="arrow">▶</span>
+</div>
+<div class="acc-body">
+  <p class="note">Тезисы этапа:</p>
+  <ul><li>ECL: HRP + люминол → свечение, до фг</li><li>NIR (Li-Cor): два канала, линейный диапазон, количественно</li><li>Хромогенная DAB — без оборудования</li></ul>
+  <a class="more" href="detection.html">Подробная страница →</a>
+</div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)">
+  <div class="stage-num">7</div>
+  <div class="title">Диагностические варианты: линейный блот, dot blot</div>
+  <span class="status todo">не начинали</span>
+  <span class="arrow">▶</span>
+</div>
+<div class="acc-body">
+  <p class="note">Тезисы этапа:</p>
+  <ul><li>Линейный блот: рекомбинантные антигены линиями — подтверждающий стандарт</li><li>Dot/slot blot: «есть/нет» без разделения</li><li>Подтверждает положительный ELISA/IFA скрининг</li></ul>
+  <a class="more" href="diagnostic.html">Подробная страница →</a>
+</div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)">
+  <div class="stage-num">8</div>
+  <div class="title">Современные платформы</div>
+  <span class="status todo">не начинали</span>
+  <span class="arrow">▶</span>
+</div>
+<div class="acc-body">
+  <p class="note">Тезисы этапа:</p>
+  <ul><li>Simple Western (Jess): капиллярный, без гелей, автомат</li><li>In-Cell Western: клетки в планшете, high-throughput</li><li>NIR + нормализация — стандарт количественности</li></ul>
+  <a class="more" href="platforms.html">Подробная страница →</a>
+</div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)">
+  <div class="stage-num">9</div>
+  <div class="title">Буферы: все в одном месте</div>
+  <span class="status done">разобрано</span>
+  <span class="arrow">▶</span>
+</div>
+<div class="acc-body">
+  <p class="note">Тезисы этапа:</p>
+  <ul><li>Составы, назначение, приготовление</li><li>Сроки и условия хранения (концентрат/рабочий/самодельный)</li><li>Особые случаи: азид, молоко, метанол</li></ul>
+  <a class="more" href="buffers.html">Подробная страница →</a>
+</div>
+</div>
+<div class="card acc"><div class="head" onclick="toggleAcc(this,event)"><div class="stage-num">📖</div><div class="title">Словарь терминов</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p class="note">31 терминов с короткими определениями.</p><a class="more" href="glossary.html">Открыть словарь →</a></div></div>
 </main>
-<div class="footer">Собрано из наших обсуждений · Ната + Hermes · GitHub Pages</div>
+<div class="footer">Конспект наших обсуждений · GitHub Pages</div>
 <script>
-function toggleStage(el, ev){
+function toggleAcc(head, ev){
   if (ev.target.closest('a') || ev.target.closest('.status')) return;
-  el.classList.toggle('open');
+  head.parentElement.classList.toggle('open');
 }
-// тултипы терминов
 document.addEventListener('DOMContentLoaded', function(){
   var tip = document.createElement('div'); tip.className='tooltip'; document.body.appendChild(tip);
   document.querySelectorAll('.term').forEach(function(t){
