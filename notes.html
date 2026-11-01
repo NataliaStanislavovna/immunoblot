@@ -41,12 +41,15 @@ textarea.note:focus { outline:2px solid var(--blue); }
 .note-h { font-family:Arial; font-weight:bold; color:#1a3a63; margin:18px 0 6px; font-size:1.02em; }
 @media (max-width:600px){ header h1{font-size:1.15em} .title,.sub-title{font-size:.98em} .acc-body{padding-left:16px} }
 </style></head><body>
-<header><h1>Лабораторные заметки</h1><div class="sub">сохраняются в этом браузере (localStorage) · кнопка ниже — выгрузка в файл</div></header>
+<header><h1>Лабораторные заметки</h1><div class="sub">локально — автосохранение; между устройствами — кнопки облака</div></header>
 <main>
 <div class="breadcrumb"><a href="index.html">↑ Карта метода</a></div>
 <div class="card" style="padding:12px 16px">
-<button class="note-btn" onclick="exportNotes()">Скачать заметки (.txt)</button>
+<button class="note-btn" onclick="syncSave()">⬆ Сохранить в облако</button>
+<button class="note-btn" onclick="syncLoad()">⬇ Загрузить из облака</button>
+<button class="note-btn gray" onclick="exportNotes()">Скачать заметки (.txt)</button>
 <button class="note-btn gray" onclick="clearNotes()">Очистить всё</button>
+<p class="note" id="syncStatus" style="margin:4px 0"></p>
 </div>
 <div class="note-h">Подготовка образца</div>
 <textarea class="note" id="note_sample" placeholder="записи по ходу работы..."></textarea>
@@ -69,19 +72,65 @@ textarea.note:focus { outline:2px solid var(--blue); }
 </main>
 <div class="footer">Конспект наших обсуждений · GitHub Pages</div>
 <script>
-function loadNotes(){ document.querySelectorAll('textarea.note').forEach(function(t){
-  t.value = localStorage.getItem('ibl_'+t.id) || '';
-  t.addEventListener('input', function(){ localStorage.setItem('ibl_'+t.id, t.value); });
-});}
-function exportNotes(){
-  var out = 'ЗАМЕТКИ — иммуноблоттинг
-' + new Date().toLocaleString('ru-RU') + '
-';
+function collectNotes(){
+  var o = {};
+  document.querySelectorAll('textarea.note').forEach(function(t){ o[t.id] = t.value; });
+  return o;
+}
+function applyNotes(o){
   document.querySelectorAll('textarea.note').forEach(function(t){
-    if (t.value.trim()) out += '
-=== ' + t.previousElementSibling.textContent + ' ===
-' + t.value + '
-';
+    if (o[t.id] !== undefined) { t.value = o[t.id]; localStorage.setItem('ibl_'+t.id, o[t.id]); }
+  });
+}
+function getToken(){
+  var tk = localStorage.getItem('ibl_gh_token');
+  if (!tk) {
+    tk = prompt('Введите GitHub token (scope: repo) — сохранится только в этом браузере:');
+    if (tk) localStorage.setItem('ibl_gh_token', tk.trim());
+  }
+  return tk;
+}
+function syncSave(){
+  var tk = getToken(); if (!tk) return;
+  var stamp = new Date().toISOString().replace(/[:T]/g,'-').slice(0,16);
+  var content = btoa(unescape(encodeURIComponent(stamp + '\n' + JSON.stringify(collectNotes(), null, 1))));
+  fetch('https://api.github.com/repos/NataliaStanislavovna/immunoblot/contents/notes-data.txt', {
+    headers: {Authorization: 'token '+tk, Accept: 'application/vnd.github+json'}})
+  .then(function(r){return r.json()})
+  .then(function(ex){
+    var payload = {message:'notes update', content:content, branch:'main'};
+    if (ex && ex.sha) payload.sha = ex.sha;
+    return fetch('https://api.github.com/repos/NataliaStanislavovna/immunoblot/contents/notes-data.txt', {
+      method:'PUT', headers:{Authorization:'token '+tk, Accept:'application/vnd.github+json', 'Content-Type':'application/json'},
+      body: JSON.stringify(payload)});
+  })
+  .then(function(r){ if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(function(){ document.getElementById('syncStatus').textContent = '✓ сохранено в облако ' + new Date().toLocaleTimeString('ru-RU'); })
+  .catch(function(e){ document.getElementById('syncStatus').textContent = '✗ ошибка: ' + e.message + ' (проверьте token)'; });
+}
+function syncLoad(){
+  var tk = getToken(); if (!tk) return;
+  fetch('https://api.github.com/repos/NataliaStanislavovna/immunoblot/contents/notes-data.txt', {
+    headers: {Authorization: 'token '+tk, Accept: 'application/vnd.github+json'}})
+  .then(function(r){ if (r.status === 404) throw new Error('в облаке ещё ничего нет'); if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(function(d){
+    var txt = decodeURIComponent(escape(atob(d.content)));
+    var start = txt.indexOf('{');
+    applyNotes(JSON.parse(txt.slice(start)));
+    document.getElementById('syncStatus').textContent = '✓ загружено из облака ' + new Date().toLocaleTimeString('ru-RU');
+  })
+  .catch(function(e){ document.getElementById('syncStatus').textContent = '✗ ' + e.message; });
+}
+function loadNotes(){
+  document.querySelectorAll('textarea.note').forEach(function(t){
+    t.value = localStorage.getItem('ibl_'+t.id) || '';
+    t.addEventListener('input', function(){ localStorage.setItem('ibl_'+t.id, t.value); });
+  });
+}
+function exportNotes(){
+  var out = 'ЗАМЕТКИ — иммуноблоттинг\n' + new Date().toLocaleString('ru-RU') + '\n';
+  document.querySelectorAll('textarea.note').forEach(function(t){
+    if (t.value.trim()) out += '\n=== ' + t.previousElementSibling.textContent + ' ===\n' + t.value + '\n';
   });
   var a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([out], {type:'text/plain;charset=utf-8'}));
