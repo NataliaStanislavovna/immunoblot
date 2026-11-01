@@ -34,6 +34,11 @@ details.inner { margin:10px 0; border:1px solid #dbe4f0; border-radius:8px; back
 details.inner summary { cursor:pointer; padding:8px 12px; color:var(--blue); font-weight:bold; font-family:Arial; font-size:.88em; }
 details.inner[open] summary { border-bottom:1px solid #e4ebf4; }
 details.inner .inner-body { padding:6px 14px 10px; }
+textarea.note { width:100%; min-height:90px; border:1px solid #cfd9e8; border-radius:8px; padding:10px 12px; font-family:Georgia,serif; font-size:.95em; line-height:1.5; background:#fffdf5; resize:vertical; }
+textarea.note:focus { outline:2px solid var(--blue); }
+.note-btn { display:inline-block; margin:6px 8px 6px 0; font-family:Arial; font-size:.85em; color:#fff; background:var(--blue); border:none; padding:8px 16px; border-radius:16px; cursor:pointer; }
+.note-btn.gray { background:#777; }
+.note-h { font-family:Arial; font-weight:bold; color:#1a3a63; margin:18px 0 6px; font-size:1.02em; }
 @media (max-width:600px){ header h1{font-size:1.15em} .title,.sub-title{font-size:.98em} .acc-body{padding-left:16px} }
 </style></head><body>
 <header><h1>Иммуноблоттинг</h1><div class="sub">учебник-конспект · клик по этапу — тезисы, «подробнее» — полный разбор</div></header>
@@ -148,6 +153,8 @@ details.inner .inner-body { padding:6px 14px 10px; }
   <a class="more" href="buffers.html">Подробная страница →</a>
 </div>
 </div>
+<div class="card acc"><div class="head" onclick="toggleAcc(this,event)"><div class="stage-num">📝</div><div class="title">Лабораторные заметки</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p class="note">Поля для записи наблюдений по ходу работы. Сохраняются в браузере; можно выгрузить в файл.</p><a class="more" href="notes.html">Открыть заметки →</a></div></div>
 <div class="card acc"><div class="head" onclick="toggleAcc(this,event)"><div class="stage-num">📖</div><div class="title">Словарь терминов</div><span class="arrow">▶</span></div>
 <div class="acc-body"><p class="note">31 терминов с короткими определениями.</p><a class="more" href="glossary.html">Открыть словарь →</a></div></div>
 </main>
