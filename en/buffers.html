@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buffers: All in One Place — Immunoblotting</title><style>
+:root { --blue:#1a56a0; --bg:#f7f9fc; --card:#ffffff; --done:#2e7d32; --prog:#f9a825; --todo:#9e9e9e; }
+* { box-sizing:border-box; }
+body { font-family: Georgia, 'Times New Roman', serif; background:var(--bg); color:#222; margin:0; padding:0 0 60px; }
+header { background:var(--blue); color:#fff; padding:18px 20px; position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+header h1 { margin:0; font-size:1.35em; }
+header .sub { font-size:.8em; opacity:.85; margin-top:3px; font-family:Arial, sans-serif; }
+main { max-width:860px; margin:20px auto; padding:0 14px; }
+.card { background:var(--card); border-radius:10px; margin-bottom:12px; box-shadow:0 1px 4px rgba(0,0,0,.08); overflow:hidden; }
+.head { display:flex; align-items:center; gap:10px; cursor:pointer; padding:14px 16px; user-select:none; }
+.stage-num { background:var(--blue); color:#fff; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-family:Arial; font-weight:bold; font-size:.9em; flex-shrink:0; }
+.title { font-size:1.05em; font-weight:bold; flex:1; }
+.sub-title { font-size:1.02em; font-weight:bold; flex:1; color:#1a3a63; }
+.status { font-family:Arial; font-size:.68em; padding:3px 10px; border-radius:12px; color:#fff; white-space:nowrap; }
+.status.done { background:var(--done); } .status.prog { background:var(--prog); } .status.todo { background:var(--todo); }
+.arrow { font-family:Arial; transition:transform .2s; color:#777; flex-shrink:0; }
+.acc.open > .head .arrow { transform:rotate(90deg); }
+.acc-body { display:none; padding:4px 16px 14px 58px; line-height:1.55; border-top:1px solid #eef1f6; }
+.acc.open > .acc-body { display:block; }
+.acc-body p { margin:.45em 0; }
+.acc-body ul { margin:.45em 0; padding-left:20px; }
+a.inner { color:var(--blue); font-weight:bold; text-decoration:none; border-bottom:1px dashed var(--blue); }
+a.more { display:inline-block; margin-top:8px; font-family:Arial; font-size:.85em; color:var(--blue); text-decoration:none; border:1px solid var(--blue); padding:5px 14px; border-radius:16px; }
+.note { font-size:.88em; color:#555; font-family:Arial; }
+.breadcrumb { font-family:Arial; font-size:.82em; margin:0 0 12px; }
+.breadcrumb a { color:var(--blue); text-decoration:none; }
+.term { border-bottom:1px dotted var(--blue); cursor:help; }
+.tooltip { position:fixed; background:#333; color:#fff; padding:8px 12px; border-radius:6px; max-width:320px; font-size:.85em; font-family:Arial; z-index:50; display:none; line-height:1.4; }
+.footer { text-align:center; color:#888; font-size:.8em; font-family:Arial; margin-top:26px; }
+.qa-card { border-left:4px solid var(--prog); }
+details.inner { margin:10px 0; border:1px solid #dbe4f0; border-radius:8px; background:#fbfcfe; }
+details.inner summary { cursor:pointer; padding:8px 12px; color:var(--blue); font-weight:bold; font-family:Arial; font-size:.88em; }
+details.inner[open] summary { border-bottom:1px solid #e4ebf4; }
+details.inner .inner-body { padding:6px 14px 10px; }
+textarea.note { width:100%; min-height:90px; border:1px solid #cfd9e8; border-radius:8px; padding:10px 12px; font-family:Georgia,serif; font-size:.95em; line-height:1.5; background:#fffdf5; resize:vertical; }
+textarea.note:focus { outline:2px solid var(--blue); }
+.note-btn { display:inline-block; margin:6px 8px 6px 0; font-family:Arial; font-size:.85em; color:#fff; background:var(--blue); border:none; padding:8px 16px; border-radius:16px; cursor:pointer; }
+.note-btn.gray { background:#777; }
+.note-h { font-family:Arial; font-weight:bold; color:#1a3a63; margin:18px 0 6px; font-size:1.02em; }
+@media (max-width:600px){ header h1{font-size:1.15em} .title,.sub-title{font-size:.98em} .acc-body{padding-left:16px} }
+header .langsw { position:absolute; right:16px; top:20px; font-family:Arial, sans-serif; font-size:.78em; color:#fff; opacity:.95; text-decoration:underline; letter-spacing:.05em; }
+</style></head><body>
+<header><h1>Buffers: All in One Place</h1><div class="sub">stage 9 of 10</div><a class="langsw" href="../buffers.html">RU</a></header>
+<main>
+<div class="breadcrumb"><a href="index.html">↑ Method map</a> &nbsp; <a href="platforms.html">← Modern Platforms</a> &nbsp; <a href="notes.html">Lab Notes →</a></div>
+<div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Running buffer (electrode)</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Purpose: carries the current, enables migration in <span class="term" data-def="Electrophoresis of proteins in a polyacrylamide gel after SDS treatment — separation by molecular weight.">SDS-PAGE</span>.</p>
+<p>10× stock per 1 L: Tris base 30.3 g + glycine 144 g + <span class="term" data-def="Sodium dodecyl sulfate: an anionic detergent. Dissolves membranes, unfolds proteins, binds at 1.4 g/g, imparts a uniform negative charge — the basis of size-based separation.">SDS</span> 10 g + water; do not adjust pH (~8.3 by itself). Working: dilute 1:10.</p>
+<p>Storage: 10× concentrate — months at RT (the manufacturer states 24 months; up to a year after opening — practice); do NOT freeze (<span class="term" data-def="Sodium dodecyl sulfate: an anionic detergent. Dissolves membranes, unfolds proteins, binds at 1.4 g/g, imparts a uniform negative charge — the basis of size-based separation.">SDS</span> precipitates); yellowing over time is normal. Working 1× — ~1 month at RT, 2–3 months at 4 °C; the discipline — fresh every working week.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Transfer buffer</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Tris-glycine with 20% methanol: methanol helps protein binding to the membrane.</p>
+<p>Working 1×: 50 mL 10× stock + 100 mL methanol + 350 mL water. Bis-Tris variant (no methanol): 25 mM Bicine, 25 mM Bis-Tris, 1 mM EDTA, pH 7.2 — keeps 6 months at 4 °C.</p>
+<p>Storage: with methanol — PREPARE FRESH for every transfer (methanol is volatile, the composition drifts).</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">TBS-T (wash buffer)</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Per 1 L: Tris 6.1 g + NaCl 8.68 g + Tween-20 0.5 mL; pH 8.0 (HCl); water to 1 L. PBS-T — an equivalent alternative.</p>
+<p>Storage: 4–25 °C, weeks; with sodium azide 0.02–0.05% — months at 4 °C, BUT azide must not meet <span class="term" data-def="Horseradish peroxidase: the enzyme label for ECL and chromogenic detection; inhibited by sodium azide.">HRP</span> conjugates (inhibits peroxidase) or systems with metal parts (corrosion).</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Loading buffer</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>4×: <span class="term" data-def="Sodium dodecyl sulfate: an anionic detergent. Dissolves membranes, unfolds proteins, binds at 1.4 g/g, imparts a uniform negative charge — the basis of size-based separation.">SDS</span> + reducing agent (fresh: <span class="term" data-def="Dithiothreitol: a reducing agent that breaks S–S disulfide bridges. Oxidizes in air — added fresh.">DTT</span> 200–400 mM in the stock = 100 mM in the sample, or <span class="term" data-def="The second classic reducer of S–S bridges, pungent smell.">β-mercaptoethanol</span>) + glycerol + bromophenol blue + Tris-HCl pH 6.8. Mixing: 3 parts sample + 1 part 4×.</p>
+<p>Storage: commercial −20 °C up to 12 months / 4 °C up to 6 months; homemade — base for months at RT + reducer on the day, or complete aliquots in the freezer. Details — <a class="inner" href="loading.html">Loading buffer stage</a>.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Blocking buffer</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>5% nonfat dry milk in <span class="term" data-def="Wash buffer: Tris-buffered saline + NaCl + Tween-20 (a detergent that washes off unbound material).">TBS-T</span> (routine) or 1–5% BSA (phospho-targets — milk forbidden: casein = a phosphoprotein).</p>
+<p>Storage: ONLY fresh, on the day of use; milk is a bacterial growth medium; a day in the fridge is the limit.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Make-up buffer</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Not a separate reagent but a technique: equalizing the final lane volume. Options: diluted 1× <span class="term" data-def="Sample loading buffer: SDS + reducing agent + glycerol (density) + bromophenol blue (indicator). 4× or 6×.">loading buffer</span> (cleanest), water (≤5–10 µL), lysis buffer (if the samples are in it). Details — <a class="inner" href="loading.html">Loading buffer stage</a>.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Storage summary rule</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Concentrate — months at RT (do not freeze) → working 1× — weeks at RT / longer in the cold → everything with milk or methanol — on the day of use.</p></div>
+</div>
+
+</main>
+<div class="footer">A digest of our discussions · GitHub Pages</div>
+<script>
+function toggleAcc(head, ev){
+  if (ev.target.closest('a') || ev.target.closest('.status')) return;
+  head.parentElement.classList.toggle('open');
+}
+document.addEventListener('DOMContentLoaded', function(){
+  var tip = document.createElement('div'); tip.className='tooltip'; document.body.appendChild(tip);
+  document.querySelectorAll('.term').forEach(function(t){
+    t.addEventListener('mouseenter', function(e){
+      tip.textContent = t.getAttribute('data-def');
+      tip.style.display='block';
+      var r = t.getBoundingClientRect();
+      tip.style.left = Math.max(8, r.left) + 'px';
+      tip.style.top = (r.bottom + 8) + 'px';
+    });
+    t.addEventListener('mouseleave', function(){ tip.style.display='none'; });
+  });
+});
+</script></body></html>
