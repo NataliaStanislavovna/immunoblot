@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SDS-PAGE: Electrophoresis — Immunoblotting</title><style>
+:root { --blue:#1a56a0; --bg:#f7f9fc; --card:#ffffff; --done:#2e7d32; --prog:#f9a825; --todo:#9e9e9e; }
+* { box-sizing:border-box; }
+body { font-family: Georgia, 'Times New Roman', serif; background:var(--bg); color:#222; margin:0; padding:0 0 60px; }
+header { background:var(--blue); color:#fff; padding:18px 20px; position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+header h1 { margin:0; font-size:1.35em; }
+header .sub { font-size:.8em; opacity:.85; margin-top:3px; font-family:Arial, sans-serif; }
+main { max-width:860px; margin:20px auto; padding:0 14px; }
+.card { background:var(--card); border-radius:10px; margin-bottom:12px; box-shadow:0 1px 4px rgba(0,0,0,.08); overflow:hidden; }
+.head { display:flex; align-items:center; gap:10px; cursor:pointer; padding:14px 16px; user-select:none; }
+.stage-num { background:var(--blue); color:#fff; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-family:Arial; font-weight:bold; font-size:.9em; flex-shrink:0; }
+.title { font-size:1.05em; font-weight:bold; flex:1; }
+.sub-title { font-size:1.02em; font-weight:bold; flex:1; color:#1a3a63; }
+.status { font-family:Arial; font-size:.68em; padding:3px 10px; border-radius:12px; color:#fff; white-space:nowrap; }
+.status.done { background:var(--done); } .status.prog { background:var(--prog); } .status.todo { background:var(--todo); }
+.arrow { font-family:Arial; transition:transform .2s; color:#777; flex-shrink:0; }
+.acc.open > .head .arrow { transform:rotate(90deg); }
+.acc-body { display:none; padding:4px 16px 14px 58px; line-height:1.55; border-top:1px solid #eef1f6; }
+.acc.open > .acc-body { display:block; }
+.acc-body p { margin:.45em 0; }
+.acc-body ul { margin:.45em 0; padding-left:20px; }
+a.inner { color:var(--blue); font-weight:bold; text-decoration:none; border-bottom:1px dashed var(--blue); }
+a.more { display:inline-block; margin-top:8px; font-family:Arial; font-size:.85em; color:var(--blue); text-decoration:none; border:1px solid var(--blue); padding:5px 14px; border-radius:16px; }
+.note { font-size:.88em; color:#555; font-family:Arial; }
+.breadcrumb { font-family:Arial; font-size:.82em; margin:0 0 12px; }
+.breadcrumb a { color:var(--blue); text-decoration:none; }
+.term { border-bottom:1px dotted var(--blue); cursor:help; }
+.tooltip { position:fixed; background:#333; color:#fff; padding:8px 12px; border-radius:6px; max-width:320px; font-size:.85em; font-family:Arial; z-index:50; display:none; line-height:1.4; }
+.footer { text-align:center; color:#888; font-size:.8em; font-family:Arial; margin-top:26px; }
+.qa-card { border-left:4px solid var(--prog); }
+details.inner { margin:10px 0; border:1px solid #dbe4f0; border-radius:8px; background:#fbfcfe; }
+details.inner summary { cursor:pointer; padding:8px 12px; color:var(--blue); font-weight:bold; font-family:Arial; font-size:.88em; }
+details.inner[open] summary { border-bottom:1px solid #e4ebf4; }
+details.inner .inner-body { padding:6px 14px 10px; }
+textarea.note { width:100%; min-height:90px; border:1px solid #cfd9e8; border-radius:8px; padding:10px 12px; font-family:Georgia,serif; font-size:.95em; line-height:1.5; background:#fffdf5; resize:vertical; }
+textarea.note:focus { outline:2px solid var(--blue); }
+.note-btn { display:inline-block; margin:6px 8px 6px 0; font-family:Arial; font-size:.85em; color:#fff; background:var(--blue); border:none; padding:8px 16px; border-radius:16px; cursor:pointer; }
+.note-btn.gray { background:#777; }
+.note-h { font-family:Arial; font-weight:bold; color:#1a3a63; margin:18px 0 6px; font-size:1.02em; }
+@media (max-width:600px){ header h1{font-size:1.15em} .title,.sub-title{font-size:.98em} .acc-body{padding-left:16px} }
+header .langsw { position:absolute; right:16px; top:20px; font-family:Arial, sans-serif; font-size:.78em; color:#fff; opacity:.95; text-decoration:underline; letter-spacing:.05em; }
+</style></head><body>
+<header><h1>SDS-PAGE: Electrophoresis</h1><div class="sub">stage 3 of 10</div><a class="langsw" href="../sds-page.html">RU</a></header>
+<main>
+<div class="breadcrumb"><a href="index.html">↑ Method map</a> &nbsp; <a href="loading.html">← Loading Buffer &amp; Volume Make-up</a> &nbsp; <a href="transfer.html">Transfer to Membrane →</a></div>
+<div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Gel: stacking and resolving</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Stacking 4% (large pores, packs the sample into a narrow zone) + resolving 7.5–15%: dense (12–15%) for small proteins, loose (7.5–10%) for large ones.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Precast gels or self-cast</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Bio-Rad TGX (Tris-glycine, up to a year at 4 °C), Thermo NuPAGE/Bolt (Bis-Tris MES/MOPS, sharper bands, small proteins). Price 10–25 €.</p>
+<p>Self-cast: acrylamide monomer is neurotoxic (in precast gels it is polymerized — nontoxic), APS+TEMED — polymerization starts immediately, ~2–3 € per gel. Daily series + a grant → self-cast; one-off experiments → precast.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Assembly and well rinsing</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Open the cassette, remove the tape from the bottom edge (otherwise no current!), assemble, fill with <a class="inner" href="buffers.html">1× running buffer</a>: into the tank and the upper chamber.</p>
+<p>Gels are stored in their own storage buffer (a preservative, NOT the <span class="term" data-def="Electrode buffer (Tris-glycine-SDS): carries the current and sets the migration conditions.">running buffer</span>). Wells are rinsed by pipetting up and down ABOVE the wells — the flow washes it out and replaces it with <span class="term" data-def="Electrode buffer (Tris-glycine-SDS): carries the current and sets the migration conditions.">running buffer</span>. No need to aspirate it separately: it disperses into the tank volume and is harmless there. If not removed — "torn" lanes at the start.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Loading</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p><span class="term" data-def="Tips with a long thin geometry for loading gel wells; regular Eppendorf tips do not fit.">Gel-loading tips</span> (long and thin — a regular Eppendorf tip cannot reach into a deep narrow well; no filter needed — filters are for PCR), elbows on the bench, slowly. The sample with glycerol sinks to the well bottom. Molecular-weight marker — into the first well.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Run</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>80 V ~10–15 min (packing in the <span class="term" data-def="The upper 4% gel part with large pores: packs the sample into a narrow starting zone for a sharp entry into the resolving gel.">stacking gel</span>; the blue front compresses into a line) → 120–200 V 45–90 min (separation). Done: the dye front at the bottom edge.</p>
+<p>Overheating → "<span class="term" data-def="&quot;Smiling&quot; lanes: the edges run faster than the center due to overheating or poorly mixed buffer.">smiling</span>" lanes: mix the buffer thoroughly, do not push the voltage.</p></div>
+</div><div class="card acc">
+<div class="head" onclick="toggleAcc(this,event)"><div class="sub-title">Tanks: "two schools"</div><span class="arrow">▶</span></div>
+<div class="acc-body"><p>Bio-Rad Mini-PROTEAN Tetra or Thermo XCell SureLock — just two manufacturers, one principle, consumables not interchangeable (like Canon/Nikon).</p></div>
+</div>
+
+</main>
+<div class="footer">A digest of our discussions · GitHub Pages</div>
+<script>
+function toggleAcc(head, ev){
+  if (ev.target.closest('a') || ev.target.closest('.status')) return;
+  head.parentElement.classList.toggle('open');
+}
+document.addEventListener('DOMContentLoaded', function(){
+  var tip = document.createElement('div'); tip.className='tooltip'; document.body.appendChild(tip);
+  document.querySelectorAll('.term').forEach(function(t){
+    t.addEventListener('mouseenter', function(e){
+      tip.textContent = t.getAttribute('data-def');
+      tip.style.display='block';
+      var r = t.getBoundingClientRect();
+      tip.style.left = Math.max(8, r.left) + 'px';
+      tip.style.top = (r.bottom + 8) + 'px';
+    });
+    t.addEventListener('mouseleave', function(){ tip.style.display='none'; });
+  });
+});
+</script></body></html>
