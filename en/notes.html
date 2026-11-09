@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab Notes — Immunoblotting</title><style>
+:root { --blue:#1a56a0; --bg:#f7f9fc; --card:#ffffff; --done:#2e7d32; --prog:#f9a825; --todo:#9e9e9e; }
+* { box-sizing:border-box; }
+body { font-family: Georgia, 'Times New Roman', serif; background:var(--bg); color:#222; margin:0; padding:0 0 60px; }
+header { background:var(--blue); color:#fff; padding:18px 20px; position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+header h1 { margin:0; font-size:1.35em; }
+header .sub { font-size:.8em; opacity:.85; margin-top:3px; font-family:Arial, sans-serif; }
+main { max-width:860px; margin:20px auto; padding:0 14px; }
+.card { background:var(--card); border-radius:10px; margin-bottom:12px; box-shadow:0 1px 4px rgba(0,0,0,.08); overflow:hidden; }
+.head { display:flex; align-items:center; gap:10px; cursor:pointer; padding:14px 16px; user-select:none; }
+.stage-num { background:var(--blue); color:#fff; border-radius:50%; min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-family:Arial; font-weight:bold; font-size:.9em; flex-shrink:0; }
+.title { font-size:1.05em; font-weight:bold; flex:1; }
+.sub-title { font-size:1.02em; font-weight:bold; flex:1; color:#1a3a63; }
+.status { font-family:Arial; font-size:.68em; padding:3px 10px; border-radius:12px; color:#fff; white-space:nowrap; }
+.status.done { background:var(--done); } .status.prog { background:var(--prog); } .status.todo { background:var(--todo); }
+.arrow { font-family:Arial; transition:transform .2s; color:#777; flex-shrink:0; }
+.acc.open > .head .arrow { transform:rotate(90deg); }
+.acc-body { display:none; padding:4px 16px 14px 58px; line-height:1.55; border-top:1px solid #eef1f6; }
+.acc.open > .acc-body { display:block; }
+.acc-body p { margin:.45em 0; }
+.acc-body ul { margin:.45em 0; padding-left:20px; }
+a.inner { color:var(--blue); font-weight:bold; text-decoration:none; border-bottom:1px dashed var(--blue); }
+a.more { display:inline-block; margin-top:8px; font-family:Arial; font-size:.85em; color:var(--blue); text-decoration:none; border:1px solid var(--blue); padding:5px 14px; border-radius:16px; }
+.note { font-size:.88em; color:#555; font-family:Arial; }
+.breadcrumb { font-family:Arial; font-size:.82em; margin:0 0 12px; }
+.breadcrumb a { color:var(--blue); text-decoration:none; }
+.term { border-bottom:1px dotted var(--blue); cursor:help; }
+.tooltip { position:fixed; background:#333; color:#fff; padding:8px 12px; border-radius:6px; max-width:320px; font-size:.85em; font-family:Arial; z-index:50; display:none; line-height:1.4; }
+.footer { text-align:center; color:#888; font-size:.8em; font-family:Arial; margin-top:26px; }
+.qa-card { border-left:4px solid var(--prog); }
+details.inner { margin:10px 0; border:1px solid #dbe4f0; border-radius:8px; background:#fbfcfe; }
+details.inner summary { cursor:pointer; padding:8px 12px; color:var(--blue); font-weight:bold; font-family:Arial; font-size:.88em; }
+details.inner[open] summary { border-bottom:1px solid #e4ebf4; }
+details.inner .inner-body { padding:6px 14px 10px; }
+textarea.note { width:100%; min-height:90px; border:1px solid #cfd9e8; border-radius:8px; padding:10px 12px; font-family:Georgia,serif; font-size:.95em; line-height:1.5; background:#fffdf5; resize:vertical; }
+textarea.note:focus { outline:2px solid var(--blue); }
+.note-btn { display:inline-block; margin:6px 8px 6px 0; font-family:Arial; font-size:.85em; color:#fff; background:var(--blue); border:none; padding:8px 16px; border-radius:16px; cursor:pointer; }
+.note-btn.gray { background:#777; }
+.note-h { font-family:Arial; font-weight:bold; color:#1a3a63; margin:18px 0 6px; font-size:1.02em; }
+@media (max-width:600px){ header h1{font-size:1.15em} .title,.sub-title{font-size:.98em} .acc-body{padding-left:16px} }
+header .langsw { position:absolute; right:16px; top:20px; font-family:Arial, sans-serif; font-size:.78em; color:#fff; opacity:.95; text-decoration:underline; letter-spacing:.05em; }
+</style></head><body>
+<header><h1>Lab Notes</h1><div class="sub">locally — autosave; across devices — the cloud buttons</div><a class="langsw" href="../notes.html">RU</a></header>
+<main>
+<div class="breadcrumb"><a href="index.html">↑ Method map</a></div>
+<div class="card" style="padding:12px 16px">
+<button class="note-btn" onclick="syncSave()">⬆ Save to cloud</button>
+<button class="note-btn" onclick="syncLoad()">⬇ Load from cloud</button>
+<button class="note-btn gray" onclick="exportNotes()">Download notes (.txt)</button>
+<button class="note-btn gray" onclick="clearNotes()">Clear all</button>
+<p class="note" id="syncStatus" style="margin:4px 0"></p>
+</div>
+<div class="note-h">Sample Preparation</div>
+<textarea class="note" id="note_sample" placeholder="observations as you work..."></textarea>
+<div class="note-h">Loading Buffer &amp; Volume Make-up</div>
+<textarea class="note" id="note_loading" placeholder="observations as you work..."></textarea>
+<div class="note-h">SDS-PAGE: Electrophoresis</div>
+<textarea class="note" id="note_sds-page" placeholder="observations as you work..."></textarea>
+<div class="note-h">Transfer to Membrane</div>
+<textarea class="note" id="note_transfer" placeholder="observations as you work..."></textarea>
+<div class="note-h">Blocking &amp; Antibodies</div>
+<textarea class="note" id="note_blocking" placeholder="observations as you work..."></textarea>
+<div class="note-h">Detection</div>
+<textarea class="note" id="note_detection" placeholder="observations as you work..."></textarea>
+<div class="note-h">Diagnostic Formats: Line Blot, Dot Blot</div>
+<textarea class="note" id="note_diagnostic" placeholder="observations as you work..."></textarea>
+<div class="note-h">Modern Platforms</div>
+<textarea class="note" id="note_platforms" placeholder="observations as you work..."></textarea>
+<div class="note-h">Buffers: All in One Place</div>
+<textarea class="note" id="note_buffers" placeholder="observations as you work..."></textarea>
+</main>
+<div class="footer">A digest of our discussions · GitHub Pages</div>
+<script>
+function collectNotes(){
+  var o = {};
+  document.querySelectorAll('textarea.note').forEach(function(t){ o[t.id] = t.value; });
+  return o;
+}
+function applyNotes(o){
+  document.querySelectorAll('textarea.note').forEach(function(t){
+    if (o[t.id] !== undefined) { t.value = o[t.id]; localStorage.setItem('ibl_'+t.id, o[t.id]); }
+  });
+}
+function getToken(){
+  var tk = localStorage.getItem('ibl_gh_token');
+  if (!tk) {
+    tk = prompt('Enter GitHub token (scope: repo) — stored only in this browser:');
+    if (tk) localStorage.setItem('ibl_gh_token', tk.trim());
+  }
+  return tk;
+}
+function syncSave(){
+  var tk = getToken(); if (!tk) return;
+  var stamp = new Date().toISOString().replace(/[:T]/g,'-').slice(0,16);
+  var content = btoa(unescape(encodeURIComponent(stamp + '\n' + JSON.stringify(collectNotes(), null, 1))));
+  fetch('https://api.github.com/repos/NataliaStanislavovna/immunoblot/contents/notes-data.txt', {
+    headers: {Authorization: 'token '+tk, Accept: 'application/vnd.github+json'}})
+  .then(function(r){return r.json()})
+  .then(function(ex){
+    var payload = {message:'notes update', content:content, branch:'main'};
+    if (ex && ex.sha) payload.sha = ex.sha;
+    return fetch('https://api.github.com/repos/NataliaStanislavovna/immunoblot/contents/notes-data.txt', {
+      method:'PUT', headers:{Authorization: 'token '+tk, Accept: 'application/vnd.github+json', 'Content-Type':'application/json'},
+      body: JSON.stringify(payload)});
+  })
+  .then(function(r){ if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(function(){ document.getElementById('syncStatus').textContent = '✓ saved to cloud ' + new Date().toLocaleTimeString('en-GB'); })
+  .catch(function(e){ document.getElementById('syncStatus').textContent = '✗ error: ' + e.message + ' (check the token)'; });
+}
+function syncLoad(){
+  var tk = getToken(); if (!tk) return;
+  fetch('https://api.github.com/repos/NataliaStanislavovna/immunoblot/contents/notes-data.txt', {
+    headers: {Authorization: 'token '+tk, Accept: 'application/vnd.github+json'}})
+  .then(function(r){ if (r.status === 404) throw new Error('nothing in the cloud yet'); if (!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(function(d){
+    var txt = decodeURIComponent(escape(atob(d.content)));
+    var start = txt.indexOf('{');
+    applyNotes(JSON.parse(txt.slice(start)));
+    document.getElementById('syncStatus').textContent = '✓ loaded from cloud ' + new Date().toLocaleTimeString('en-GB');
+  })
+  .catch(function(e){ document.getElementById('syncStatus').textContent = '✗ error: ' + e.message; });
+}
+function loadNotes(){
+  document.querySelectorAll('textarea.note').forEach(function(t){
+    t.value = localStorage.getItem('ibl_'+t.id) || '';
+    t.addEventListener('input', function(){ localStorage.setItem('ibl_'+t.id, t.value); });
+  });
+}
+function exportNotes(){
+  var out = 'NOTES — immunoblotting\n' + new Date().toLocaleString('en-GB') + '\n';
+  document.querySelectorAll('textarea.note').forEach(function(t){
+    if (t.value.trim()) out += '\n=== ' + t.previousElementSibling.textContent + ' ===\n' + t.value + '\n';
+  });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([out], {type:'text/plain;charset=utf-8'}));
+  a.download = 'immunoblot_notes.txt'; a.click();
+}
+function clearNotes(){
+  if (!confirm('Delete all notes?')) return;
+  document.querySelectorAll('textarea.note').forEach(function(t){ t.value=''; localStorage.removeItem('ibl_'+t.id); });
+}
+document.addEventListener('DOMContentLoaded', loadNotes);
+</script></body></html>
